@@ -28,8 +28,17 @@ public class mantCooperativas extends javax.swing.JDialog {
         
     }
     
+       private void seleccionarRegistro(){
+        txtCedula.setText(String.valueOf(tabla.getValueAt(fila, 0)));
+        txtNombre.setText(String.valueOf(tabla.getValueAt(fila, 1)));
+        txtTelefono.setText(String.valueOf(tabla.getValueAt(fila, 2)));
+        txtDireccion.setText(String.valueOf(tabla.getValueAt(fila, 3)));
+        
+    }
+    
+    
     private void cargarArchivo(){
-        util.TablaArchivo(4, "Cooperativas.txt", modeloTabla);
+        util.EscribirEnArchivo("Cooperativas.txt", modeloTabla);
         tabla.setModel(modeloTabla);
         
     }
@@ -301,8 +310,16 @@ public class mantCooperativas extends javax.swing.JDialog {
 
     private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
         // TODO add your handling code here:
-        util.EscribirEnArchivo("Coperativas.txt", modeloTabla);
-        btnGuardarArchivo.setEnabled(true);
+       // util.EscribirEnArchivo("Coperativas.txt", modeloTabla);
+        //btnGuardarArchivo.setEnabled(false);
+         if (util.EscribirEnArchivo("Coperativas.txt", modeloTabla)) {
+        btnGuardarArchivo.setEnabled(false);
+        System.out.println("Archivo 'Coperativas.txt' guardado exitosamente.");
+        // Opcional: Mostrar un mensaje al usuario indicando que se guardó el archivo
+    } else {
+        System.err.println("Error al guardar el archivo 'Coperativas.txt'.");
+        // Opcional: Mostrar un mensaje de error al usuario
+    }
         
     }//GEN-LAST:event_btnGuardarArchivoActionPerformed
 
@@ -339,14 +356,7 @@ public class mantCooperativas extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void seleccionarRegistro(){
-        txtCedula.setText(String.valueOf(tabla.getValueAt(fila, 0)));
-        txtNombre.setText(String.valueOf(tabla.getValueAt(fila, 1)));
-        txtTelefono.setText(String.valueOf(tabla.getValueAt(fila, 2)));
-        txtDireccion.setText(String.valueOf(tabla.getValueAt(fila, 3)));
-        
-    }
-    
+ 
     /**
      * @param args the command line arguments
      */
