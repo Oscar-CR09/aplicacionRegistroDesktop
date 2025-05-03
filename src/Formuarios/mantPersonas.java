@@ -274,7 +274,7 @@ public class mantPersonas extends javax.swing.JDialog {
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(cmbPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla del Personal Registrado"));
@@ -303,7 +303,7 @@ public class mantPersonas extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -338,27 +338,6 @@ public class mantPersonas extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void btnIncluirTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirTablaActionPerformed
-        // TODO add your handling code here:
-        int nLic =Integer.parseInt(xtxLicencia.getText());
-        int Edad=Integer.parseInt(txtEdad.getText());
-        cargarTabla();
-        modeloTabla.addRow(filas);
-        tabla.setModel(modeloTabla);
-        btnGuardarArchivo.setEnabled(true);
-        
-    }//GEN-LAST:event_btnIncluirTablaActionPerformed
-
-    private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
-        // TODO add your handling code here:
-        util.EscribirEnArchivo("Personas.txt", modeloTabla);
-        btnGuardarArchivo.setEnabled(false);
-    }//GEN-LAST:event_btnGuardarArchivoActionPerformed
-
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
         fila=tabla.rowAtPoint(evt.getPoint());
@@ -385,25 +364,46 @@ public class mantPersonas extends javax.swing.JDialog {
         
     }//GEN-LAST:event_tablaMouseClicked
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+    private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
         // TODO add your handling code here:
-        cargarTabla();
-        for (int i = 0; i < 7; i++) { // para las 7 columnas de la tabla
-            modeloTabla.setValueAt(filas[i], fila, i);
-            
-        }
-        tabla.setModel(modeloTabla);
-        btnGuardarArchivo.setEnabled(true);
-        
-    }//GEN-LAST:event_btnModificarActionPerformed
+        util.EscribirEnArchivo("Personas.txt", modeloTabla);
+        btnGuardarArchivo.setEnabled(false);
+    }//GEN-LAST:event_btnGuardarArchivoActionPerformed
 
     private void btnEliminarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFilaActionPerformed
         // TODO add your handling code here:
         modeloTabla.removeRow(fila);
         tabla.setModel(modeloTabla);
         btnGuardarArchivo.setEnabled(true);
-        
+
     }//GEN-LAST:event_btnEliminarFilaActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        cargarTabla();
+        for (int i = 0; i < 7; i++) { // para las 7 columnas de la tabla
+            modeloTabla.setValueAt(filas[i], fila, i);
+
+        }
+        tabla.setModel(modeloTabla);
+        btnGuardarArchivo.setEnabled(true);
+
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnIncluirTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirTablaActionPerformed
+        // TODO add your handling code here:
+        int nLic =Integer.parseInt(xtxLicencia.getText());
+        int Edad=Integer.parseInt(txtEdad.getText());
+        cargarTabla();
+        modeloTabla.addRow(filas);
+        tabla.setModel(modeloTabla);
+        btnGuardarArchivo.setEnabled(true);
+
+    }//GEN-LAST:event_btnIncluirTablaActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
 
     /**
      * @param args the command line arguments
