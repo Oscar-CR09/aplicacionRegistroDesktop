@@ -3,12 +3,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package Formuarios;
+import Clases.Utilitarios;
+import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author oscar
  */
 public class mantTaxis extends javax.swing.JDialog {
+    
+    Object[]filas=new Object[7];
+    javax.swing.table.DefaultTableModel modeloTabla=new javax.swing.table.DefaultTableModel();
+    Utilitarios util =new Utilitarios();
+    private int fila;
+    
+    private void configurarModelo(){
+        modeloTabla=new javax.swing.table.DefaultTableModel();
+        modeloTabla.addColumn("Numero  de Placa");
+        modeloTabla.addColumn("Tiempo");
+        modeloTabla.addColumn("Marca");
+        modeloTabla.addColumn("Modelo");
+        modeloTabla.addColumn("Tenencia ");
+        modeloTabla.addColumn("Verificacion");
+        
+        tabla.setModel(modeloTabla);
+        
+    }
+    
+     @SuppressWarnings("unchecked")
+    private void cargarTabla(){
+        try {
+            
+            filas[0]=txtNumPlaca.getText();
+            filas[1]=cmbTipoTaxi.getSelectedItem();
+            filas[2]=txtMarca.getText();
+            filas[3]=cmbModelo.getSelectedItem().toString();
+            filas[4]=cmbTenencia.getSelectedItem();
+            filas[5]=cmbVerificacion.getSelectedItem();
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.toString());
+            
+        }
+    }
 
     /**
      * Creates new form mantTaxis
@@ -16,7 +54,16 @@ public class mantTaxis extends javax.swing.JDialog {
     public mantTaxis(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        configurarModelo();
+        cargarArchivo();
     }
+    
+    @SuppressWarnings("unchecked")
+    private void cargarArchivo(){
+        util.EscribirEnArchivo("Taxis.txt",modeloTabla);
+        tabla.setModel(modeloTabla);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,22 +74,301 @@ public class mantTaxis extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtNumPlaca = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        cmbTipoTaxi = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        txtMarca = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cmbModelo = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        cmbTenencia = new javax.swing.JComboBox<>();
+        cmbVerificacion = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+        btnIncluirTabla = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
+        btnGuardarArchivo = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion de Taxis");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro Datos"));
+
+        jLabel1.setText("Numero Placa:");
+
+        jLabel2.setText("Tipo Taxi:");
+
+        cmbTipoTaxi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Regular", "Normal" }));
+
+        jLabel3.setText("Marca:");
+
+        txtMarca.setText("-");
+
+        jLabel4.setText("Modelo:");
+
+        cmbModelo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025" }));
+
+        jLabel5.setText("Tenencia:");
+
+        jLabel6.setText("Verificacion:");
+
+        cmbTenencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "Adeudo" }));
+
+        cmbVerificacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagada", "Adeudo" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNumPlaca)
+                    .addComponent(txtMarca)
+                    .addComponent(cmbTipoTaxi, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTenencia, 0, 187, Short.MAX_VALUE)
+                    .addComponent(cmbVerificacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNumPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbTipoTaxi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cmbTenencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(cmbVerificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla "));
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null", "null"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        btnIncluirTabla.setText("Incluir en la Tabla");
+        btnIncluirTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirTablaActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setText("Modificar fila en la Tabla");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar fila de la Tabla");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnCerrar.setText("Cerrar y regresar al Menu");
+
+        btnGuardarArchivo.setText("Actualizar archivo de Texto");
+        btnGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarArchivoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnIncluirTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGuardarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(btnIncluirTabla)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar)
+                        .addGap(19, 19, 19)
+                        .addComponent(btnCerrar)
+                        .addGap(21, 21, 21)
+                        .addComponent(btnGuardarArchivo))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        
+         cargarTabla();
+        for (int i = 0; i < 7; i++) { // para las 7 columnas de la tabla
+            modeloTabla.setValueAt(filas[i], fila, i);
+
+        }
+        tabla.setModel(modeloTabla);
+        btnGuardarArchivo.setEnabled(true);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+          fila=tabla.rowAtPoint(evt.getPoint());
+        txtNumPlaca.setText(String.valueOf(tabla.getValueAt(fila, 0)));
+       
+        String valor1 = (String) tabla.getValueAt(fila, 1);
+        for (int i = 0; i < cmbTipoTaxi.getItemCount(); i++) {
+            cmbTipoTaxi.setSelectedIndex(i);
+            if (valor1 == null ? cmbTipoTaxi.getSelectedItem().toString() == null : valor1.equals(cmbTipoTaxi.getSelectedItem().toString())) {
+                i = cmbTipoTaxi.getItemCount();               
+            }
+            txtMarca.setText((String.valueOf(tabla.getValueAt(fila, 2))));
+            String valor2 = (String) tabla.getValueAt(fila, 3);
+            for (int j = 0; j < cmbModelo.getItemCount(); j++) {
+                cmbModelo.setSelectedIndex(j);
+                if (valor2.equals(cmbModelo.getSelectedItem().toString())) {
+                    j=cmbModelo.getItemCount();
+                }
+                
+                   String valor3 = (String) tabla.getValueAt(fila,4 );
+                   for (int k = 0; k < cmbTenencia.getItemCount(); k++) {
+                        cmbTenencia.setSelectedIndex(k);
+                        if (valor2.equals(cmbTenencia.getSelectedItem().toString())) {
+                            k=cmbTenencia.getItemCount();
+                        }
+                                              
+                        String valor4 = (String) tabla.getValueAt(fila,5 );
+                        for (int l = 0; l < cmbVerificacion.getItemCount(); l++) {
+                            cmbVerificacion.setSelectedIndex(l);
+                            if (valor2.equals(cmbVerificacion.getSelectedItem().toString())) {
+                                l=cmbVerificacion.getItemCount();
+                        }     
+                
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
+        // TODO add your handling code here:
+        util.EscribirEnArchivo("Taxis.txt", modeloTabla);
+        btnGuardarArchivo.setEnabled(false);
+    }//GEN-LAST:event_btnGuardarArchivoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        modeloTabla.removeRow(fila);
+        tabla.setModel(modeloTabla);
+        btnGuardarArchivo.setEnabled(true);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnIncluirTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirTablaActionPerformed
+        // TODO add your handling code here:
+            int nPlaca =Integer.parseInt(txtNumPlaca.getText());
+            int modelo=Integer.parseInt(cmbModelo.getSelectedItem().toString());
+            cargarTabla();
+            modeloTabla.addRow(filas);
+            tabla.setModel(modeloTabla);
+            btnGuardarArchivo.setEnabled(true);
+    }//GEN-LAST:event_btnIncluirTablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -87,5 +413,26 @@ public class mantTaxis extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardarArchivo;
+    private javax.swing.JButton btnIncluirTabla;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JComboBox<String> cmbModelo;
+    private javax.swing.JComboBox<String> cmbTenencia;
+    private javax.swing.JComboBox<String> cmbTipoTaxi;
+    private javax.swing.JComboBox<String> cmbVerificacion;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtNumPlaca;
     // End of variables declaration//GEN-END:variables
 }
