@@ -1,0 +1,3 @@
+Numero  de Placa,Tiempo,Marca,Modelo,Tenencia ,Verificacion
+1253,Normal,ika,2023,Pagada,Pagada
+1235,Regular,ika,2023,Pagada,Pagada

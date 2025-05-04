@@ -243,6 +243,11 @@ public class mantTaxis extends javax.swing.JDialog {
         });
 
         btnCerrar.setText("Cerrar y regresar al Menu");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         btnGuardarArchivo.setText("Actualizar archivo de Texto");
         btnGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -369,6 +374,11 @@ public class mantTaxis extends javax.swing.JDialog {
             tabla.setModel(modeloTabla);
             btnGuardarArchivo.setEnabled(true);
     }//GEN-LAST:event_btnIncluirTablaActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+            this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**
      * @param args the command line arguments

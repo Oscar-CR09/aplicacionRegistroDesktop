@@ -164,6 +164,11 @@ public class mantPersonas extends javax.swing.JDialog {
         });
 
         btnCerrar.setText("Cerrar y regresar al menú");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         btnGuardarArchivo.setText("Actualizar Archivo de Texto");
         btnGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -412,6 +417,11 @@ public class mantPersonas extends javax.swing.JDialog {
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+            this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**
      * @param args the command line arguments
