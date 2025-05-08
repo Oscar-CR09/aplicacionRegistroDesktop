@@ -1,4 +1,0 @@
-Cedula,Nombre,Telefono,Tipo Licencia,# Licencia,Edad,Tipo
-12354,asdasd,45656,B2,232,23,Conductor
-2654,aaaaaaa,555864,C2,0235,39,Propietario
-2321,llllllll,55623214,C3,1235,22,Propietario

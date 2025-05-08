@@ -5,6 +5,7 @@
 package Formuarios;
 import Clases.Utilitarios;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -60,7 +61,8 @@ public class mantPersonas extends javax.swing.JDialog {
     }
     @SuppressWarnings("unchecked")
     private void cargarArchivo(){
-        util.EscribirEnArchivo("Personas.txt",modeloTabla);
+        
+       // util.EscribirEnArchivo("Personas.txt",modeloTabla);
         tabla.setModel(modeloTabla);
     }
 
@@ -379,8 +381,20 @@ public class mantPersonas extends javax.swing.JDialog {
 
     private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
         // TODO add your handling code here:
-        util.EscribirEnArchivo("Personas.txt", modeloTabla);
-        btnGuardarArchivo.setEnabled(false);
+        //util.EscribirEnArchivo("Personas.txt",modeloTabla);
+        //btnGuardarArchivo.setEnabled(false);
+ 
+     String rutaParaGuardar = util.seleccionarRutaGuardado();
+    //System.out.println("Ruta a pasar a EscribirEnArchivo: " + rutaParaGuardar); // <-- AGREGAR ESTA LÍNEA
+    if (rutaParaGuardar != null) {
+        if (util.EscribirEnArchivo("Personas.txt", modeloTabla, rutaParaGuardar)) {
+            btnGuardarArchivo.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Guardado cancelado por el usuario.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_btnGuardarArchivoActionPerformed
 
     private void btnEliminarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFilaActionPerformed

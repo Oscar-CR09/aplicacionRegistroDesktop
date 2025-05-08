@@ -6,7 +6,10 @@ package Formuarios;
 import Clases.Utilitarios;
 import java.io.*;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -16,7 +19,13 @@ public class movTaxis extends javax.swing.JDialog {
     Object[] filas =new Object[5];
     Object[] otaxis = new Object[6];
     int fila;
-    javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel();
+    DefaultTableModel modeloTabla = new DefaultTableModel();
+
+    // Define la ruta específica para guardar el archivo de movimientos
+    private final String rutaGuardadoMovimientos = "/src/Archivos"; // Reemplaza con tu ruta deseada
+
+    //javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel();
+    
     
 
     /**
@@ -42,77 +51,73 @@ public class movTaxis extends javax.swing.JDialog {
                 
     }
     
-    private void cargarTaxis(){
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        try {
-            archivo = new File (Utilitarios.class + "\\Movimientos.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            String linea;
-            while ((linea=br.readLine())!=null) {
-                filas[0]=linea;
-                for (int j = 1; j < 5; j++) {
-                    filas[j]=br.readLine();
-                    
-                }
-                tabla.setModel(modeloTabla);;
-                
-                
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
-            
-        } finally {
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                JOptionPane.showMessageDialog(rootPane, e2.getMessage());
+    private void cargarTaxis(){ // Esta función debería cargar las placas y tipos
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    try {
+        archivo = new File (System.getProperty("user.dir") + rutaGuardadoMovimientos, "Taxis.txt"); // Inicializa 'archivo' con la ruta correcta
+        fr = new FileReader(archivo);
+        br = new BufferedReader(fr);
+        String linea;
+        cmbPlacaTaxi.removeAllItems(); // Limpia los items existentes
+        cmbTipo.removeAllItems();     // Limpia los items existentes
+
+        while ((linea=br.readLine())!=null) {
+            String[] datosTaxi = linea.split(","); // Asume que placa y tipo están separados por coma
+            if (datosTaxi.length == 2) {
+                cmbPlacaTaxi.addItem(datosTaxi[0]);
+                cmbTipo.addItem(datosTaxi[1]);
+            } else {
+                System.err.println("Advertencia: Línea ignorada en Taxis.txt: " + linea);
             }
         }
-        
-    }
-    
-    private void cargarMovimientos(){
-          File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(rootPane, "Error al cargar taxis: " + e.getMessage());
+    } finally {
         try {
-            archivo = new File (Utilitarios.class + "\\Taxis.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            String linea;
-            while ((linea=br.readLine())!=null) {
-                otaxis[0]=linea;
-                for (int j = 0; j < 6; j++) {
-                    otaxis[j]=br.readLine();
-                    
-                }
-                cmbPlacaTaxi.addItem((String) otaxis[0]);
-                
-                
+            if (null != fr) {
+                fr.close();
             }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
-            
-        } finally {
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                JOptionPane.showMessageDialog(rootPane, e2.getMessage());
+        } catch (Exception e2) {
+            JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+        }
+    }
+}
+    private void cargarMovimientos(){ // Esta función debería cargar los movimientos en la tabla
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    try {
+        archivo = new File (System.getProperty("user.dir") + rutaGuardadoMovimientos, "Taxis.txt"); // Asume un archivo para movimientos
+        fr = new FileReader(archivo);
+        br = new BufferedReader(fr);
+        String linea;
+        modeloTabla.setRowCount(0); // Limpia la tabla antes de cargar
+
+        while ((linea=br.readLine())!=null) {
+            String[] datosMovimiento = linea.split(","); // Asume datos separados por coma
+            if (datosMovimiento.length == 5) {
+                modeloTabla.addRow(datosMovimiento);
+            } else {
+                System.err.println("Advertencia: Línea ignorada en Movimientos.txt: " + linea);
             }
         }
-      
-        
+        tabla.setModel(modeloTabla);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(rootPane, "Error al cargar movimientos: " + e.getMessage());
+    } finally {
+        try {
+            if (null != fr) {
+                fr.close();
+            }
+        } catch (Exception e2) {
+            JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+        }
     }
-    
+}
     private void cargarTabla(){
         try {
             filas[0]=cmbPlacaTaxi.getSelectedItem().toString();
@@ -126,7 +131,23 @@ public class movTaxis extends javax.swing.JDialog {
                                 
         }
     }
+    private void limpiarCampos() {
+    if (cmbPlacaTaxi.getItemCount() > 0) {
+        cmbPlacaTaxi.setSelectedIndex(0); // Selecciona el primer elemento o un valor por defecto
+    }
+    if (cmbTipo.getItemCount() > 0) {
+        cmbTipo.setSelectedIndex(0);
+    }
+    fecha.setText("");
+    txtHora.setText("");
+    txtMinutos.setText("");
+    if (cmbEstado.getItemCount() > 0) {
+        cmbEstado.setSelectedIndex(0);
+    }
+}
 
+    
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -219,12 +240,12 @@ public class movTaxis extends javax.swing.JDialog {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(fecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -261,7 +282,7 @@ public class movTaxis extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla Movimiento"));
@@ -298,7 +319,7 @@ public class movTaxis extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -353,15 +374,15 @@ public class movTaxis extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnIncluirTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnModificarFilaTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEliminarfilaTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnCerrarMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnActualizarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-                        .addGap(0, 10, Short.MAX_VALUE))
+                        .addGap(0, 24, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
@@ -400,14 +421,10 @@ public class movTaxis extends javax.swing.JDialog {
     private void btnIncluirTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirTablaActionPerformed
         // TODO add your handling code here:
         String hora = txtHora.getText()+":"+txtMinutos.getText();
-      /*  if (cmbTipo.getSelectedItem()=="Entrada") {
-            otaxis.agMovimientos(cmbPlacaTaxi.getSelectedItem().toString()); txtHora"00:00"; cmbFecha.getSelectedItem();cmbEstado.getSelectedItem().toString());
-        } else {
-             otaxis.agMovimientos(cmbPlacaTaxi.getSelectedItem().toString()); txtHora"00:00"; cmbFecha.getSelectedItem();cmbEstado.getSelectedItem().toString());
-        }*/
         cargarTabla();
         modeloTabla.addRow(filas);
         tabla.setModel(modeloTabla);
+        limpiarCampos();
         btnActualizarArchivo.setEnabled(true);
         
     }//GEN-LAST:event_btnIncluirTablaActionPerformed
@@ -417,7 +434,7 @@ public class movTaxis extends javax.swing.JDialog {
         FileWriter archivo = null;
         PrintWriter pw = null;
         try {
-            archivo=new FileWriter(Utilitarios.class + "Movimientos.txt");
+          //  archivo=new FileWriter(Utilitarios.rutaBase);
             pw =new PrintWriter(archivo);
             for (int filas = 0; filas < tabla.getRowCount(); filas++) {
                 for (int columnas = 0; columnas < tabla.getColumnCount(); columnas++) {
@@ -435,12 +452,14 @@ public class movTaxis extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(rootPane, e.getMessage());
             }
         }
+        cargarTabla();
+        limpiarCampos();
         btnActualizarArchivo.setEnabled(false);
     }//GEN-LAST:event_btnActualizarArchivoActionPerformed
 
     private void btnModificarFilaTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarFilaTablaActionPerformed
         // TODO add your handling code here:
-        cargarTabla();
+      
         for (int i = 0; i < 5; i++) {
             modeloTabla.setValueAt(filas[i], fila, i);
         }

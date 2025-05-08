@@ -38,7 +38,7 @@ public class mantCooperativas extends javax.swing.JDialog {
     
     
     private void cargarArchivo(){
-        util.EscribirEnArchivo("Cooperativas.txt", modeloTabla);
+        //util.EscribirEnArchivo("Cooperativas.txt", modeloTabla);
         tabla.setModel(modeloTabla);
         
     }
@@ -310,17 +310,20 @@ public class mantCooperativas extends javax.swing.JDialog {
 
     private void btnGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArchivoActionPerformed
         // TODO add your handling code here:
-       // util.EscribirEnArchivo("Coperativas.txt", modeloTabla);
-        //btnGuardarArchivo.setEnabled(false);
-         if (util.EscribirEnArchivo("Coperativas.txt", modeloTabla)) {
-        btnGuardarArchivo.setEnabled(false);
-        System.out.println("Archivo 'Coperativas.txt' guardado exitosamente.");
-        // Opcional: Mostrar un mensaje al usuario indicando que se guardó el archivo
+        //Utilitarios util = new Utilitarios();
+        //String nombreArchivo = "Coperativa.txt"; // El nombre del archivo
+        //DefaultTableModel modelo = (DefaultTableModel) tabla.getModel(); // Obtén el modelo de tu tabla
+        String rutaParaGuardar = util.seleccionarRutaGuardado();
+    //System.out.println("Ruta a pasar a EscribirEnArchivo: " + rutaParaGuardar); // <-- AGREGAR ESTA LÍNEA
+    if (rutaParaGuardar != null) {
+        if (util.EscribirEnArchivo("Personas.txt", modeloTabla, rutaParaGuardar)) {
+            btnGuardarArchivo.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     } else {
-        System.err.println("Error al guardar el archivo 'Coperativas.txt'.");
-        // Opcional: Mostrar un mensaje de error al usuario
+        JOptionPane.showMessageDialog(this, "Guardado cancelado por el usuario.", "Información", JOptionPane.INFORMATION_MESSAGE);
     }
-        
     }//GEN-LAST:event_btnGuardarArchivoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
