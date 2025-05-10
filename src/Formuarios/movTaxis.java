@@ -3,13 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package Formuarios;
+
+//import java.io.*;
 import Clases.Utilitarios;
-import java.io.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
+//import javax.swing.JTable;
+//import javax.swing.JTextField;
+//import javax.swing.JComboBox;
+//import javax.swing.JFileChooser;
+//import javax.swing.filechooser.FileNameExtensionFilter;
+//import javax.swing.table.TableModel;
 
 /**
  *
@@ -22,7 +26,9 @@ public class movTaxis extends javax.swing.JDialog {
     DefaultTableModel modeloTabla = new DefaultTableModel();
 
     // Define la ruta específica para guardar el archivo de movimientos
-    private final String rutaGuardadoMovimientos = "/src/Archivos"; // Reemplaza con tu ruta deseada
+    private final String rutaGuardadoMovimientos = "/src/data"; // Reemplaza con tu ruta deseada
+    private Utilitarios util = new Utilitarios();
+    
 
     //javax.swing.table.DefaultTableModel modeloTabla = new javax.swing.table.DefaultTableModel();
     
@@ -35,8 +41,9 @@ public class movTaxis extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         configurarModelo();
-        cargarTaxis();
-        cargarMovimientos();
+        //cargarTaxis();
+       // cargarMovimientos();
+       
         
     }
     
@@ -51,73 +58,127 @@ public class movTaxis extends javax.swing.JDialog {
                 
     }
     
-    private void cargarTaxis(){ // Esta función debería cargar las placas y tipos
+    /*
+    private void cargarTaxis(){
     File archivo = null;
     FileReader fr = null;
     BufferedReader br = null;
-    try {
-        archivo = new File (System.getProperty("user.dir") + rutaGuardadoMovimientos, "Taxis.txt"); // Inicializa 'archivo' con la ruta correcta
-        fr = new FileReader(archivo);
-        br = new BufferedReader(fr);
-        String linea;
-        cmbPlacaTaxi.removeAllItems(); // Limpia los items existentes
-        cmbTipo.removeAllItems();     // Limpia los items existentes
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+    fileChooser.setFileFilter(filter);
+    int seleccion = fileChooser.showOpenDialog(this); // 'this' hace referencia al JDialog
 
-        while ((linea=br.readLine())!=null) {
-            String[] datosTaxi = linea.split(","); // Asume que placa y tipo están separados por coma
-            if (datosTaxi.length == 2) {
-                cmbPlacaTaxi.addItem(datosTaxi[0]);
-                cmbTipo.addItem(datosTaxi[1]);
-            } else {
-                System.err.println("Advertencia: Línea ignorada en Taxis.txt: " + linea);
-            }
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(rootPane, "Error al cargar taxis: " + e.getMessage());
-    } finally {
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        archivo = fileChooser.getSelectedFile();
         try {
-            if (null != fr) {
-                fr.close();
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String linea;
+            cmbPlacaTaxi.removeAllItems();
+            cmbTipo.removeAllItems();
+
+            while ((linea = br.readLine()) != null) {
+                String[] datosTaxi = linea.split(",");
+                if (datosTaxi.length == 2) {
+                    cmbPlacaTaxi.addItem(datosTaxi[0]);
+                    cmbTipo.addItem(datosTaxi[1]);
+                } else {
+                    System.err.println("Advertencia: Línea ignorada en " + archivo.getName() + ": " + linea);
+                }
             }
-        } catch (Exception e2) {
-            JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error al cargar taxis desde " + archivo.getAbsolutePath() + ": " + e.getMessage());
+        } finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+            }
         }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se seleccionó ningún archivo para cargar los taxis.");
     }
 }
-    private void cargarMovimientos(){ // Esta función debería cargar los movimientos en la tabla
+
+    private void cargarMovimientos(){ 
+        File archivo = null;
+        FileReader fr =null;
+        BufferedReader br = null;
+        
+        try {
+            archivo =new File(System.getProperty("user.dir")+rutaGuardadoMovimientos,"Movimientos.txt");
+            fr =new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String linea;
+            modeloTabla.setRowCount(0);
+            while ((linea=br.readLine())!=null) {                
+                filas[0]=linea;
+                for (int j = 1; j < 5; j++) {
+                    filas[j]=br.readLine();
+                }
+                modeloTabla.addRow(filas);
+            }
+            tabla.setModel(modeloTabla);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        } finally {
+            try {
+                 if (null != fr){
+                     fr.close();
+                 }
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(rootPane, e2.getMessage());
+            }
+        }
+    
+    }
+/*
+private void cargarMovimientos(){
     File archivo = null;
     FileReader fr = null;
     BufferedReader br = null;
-    try {
-        archivo = new File (System.getProperty("user.dir") + rutaGuardadoMovimientos, "Taxis.txt"); // Asume un archivo para movimientos
-        fr = new FileReader(archivo);
-        br = new BufferedReader(fr);
-        String linea;
-        modeloTabla.setRowCount(0); // Limpia la tabla antes de cargar
+    JFileChooser fileChooser = new JFileChooser();
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+    fileChooser.setFileFilter(filter);
+    int seleccion = fileChooser.showOpenDialog(this);
 
-        while ((linea=br.readLine())!=null) {
-            String[] datosMovimiento = linea.split(","); // Asume datos separados por coma
-            if (datosMovimiento.length == 5) {
-                modeloTabla.addRow(datosMovimiento);
-            } else {
-                System.err.println("Advertencia: Línea ignorada en Movimientos.txt: " + linea);
-            }
-        }
-        tabla.setModel(modeloTabla);
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(rootPane, "Error al cargar movimientos: " + e.getMessage());
-    } finally {
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        archivo = fileChooser.getSelectedFile();
         try {
-            if (null != fr) {
-                fr.close();
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String linea;
+            modeloTabla.setRowCount(0);
+
+            while ((linea = br.readLine()) != null) {
+                String[] datosMovimiento = linea.split(",");
+                if (datosMovimiento.length == 5) {
+                    modeloTabla.addRow(datosMovimiento);
+                } else {
+                    System.err.println("Advertencia: Línea ignorada en " + archivo.getName() + ": " + linea);
+                }
             }
-        } catch (Exception e2) {
-            JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+            tabla.setModel(modeloTabla);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error al cargar movimientos desde " + archivo.getAbsolutePath() + ": " + e.getMessage());
+        } finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(rootPane, "Error al cerrar archivo: " + e2.getMessage());
+            }
         }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se seleccionó ningún archivo para cargar los movimientos.");
     }
 }
+    */
     private void cargarTabla(){
         try {
             filas[0]=cmbPlacaTaxi.getSelectedItem().toString();
@@ -431,30 +492,44 @@ public class movTaxis extends javax.swing.JDialog {
 
     private void btnActualizarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarArchivoActionPerformed
         // TODO add your handling code here:
-        FileWriter archivo = null;
-        PrintWriter pw = null;
+      /*
+      FileWriter archivo = null;
+      PrintWriter pw = null;
+      
         try {
-          //  archivo=new FileWriter(Utilitarios.rutaBase);
-            pw =new PrintWriter(archivo);
-            for (int filas = 0; filas < tabla.getRowCount(); filas++) {
-                for (int columnas = 0; columnas < tabla.getColumnCount(); columnas++) {
-                    pw.println(tabla.getValueAt(filas, columnas));
-                }
-            }
+            pw=new PrintWriter(archivo);
+             for (int filas = 0; fila < tabla.getRowCount(); filas++) {
+                  for (int columnas = 0; columnas < tabla.getColumnCount(); columnas++) {
+                  pw.println(tabla.getValueAt(filas, columnas));
+                  }
+             } 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         } finally {
-            try {
-                if (null!=archivo) {
-                    archivo.close();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(rootPane, e.getMessage());
+             try {
+                 if (null != archivo){
+                     archivo.close();
+                 }
+            } catch (Exception e2) {
+                JOptionPane.showMessageDialog(rootPane, e2.getMessage());
             }
         }
-        cargarTabla();
-        limpiarCampos();
-        btnActualizarArchivo.setEnabled(false);
+        */
+      
+        String rutaParaGuardar = util.seleccionarRutaGuardado();
+    //System.out.println("Ruta a pasar a EscribirEnArchivo: " + rutaParaGuardar); // <-- AGREGAR ESTA LÍNEA
+    if (rutaParaGuardar != null) {
+        if (util.EscribirEnArchivo("Movimiento.txt", modeloTabla, rutaParaGuardar)) {
+            btnActualizarArchivo.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Guardado cancelado por el usuario.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }          
+     
+    
+      
     }//GEN-LAST:event_btnActualizarArchivoActionPerformed
 
     private void btnModificarFilaTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarFilaTablaActionPerformed

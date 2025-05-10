@@ -1,0 +1,2 @@
+# Placa,Tipo Movimiento,Fecha,Hora,Estado
+Item 1,Item 2,09/05/25,10:10,Habilitado
